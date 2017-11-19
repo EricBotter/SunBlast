@@ -22,4 +22,14 @@ public class Point {
         }
         return vertices;
     }
+
+    public static float[] toFloats(Point[] points, short[] drawOrder) {
+        float[] vertices = new float[drawOrder.length * 3];
+        for (int i = 0; i < drawOrder.length; i++) {
+            vertices[i * 3] = points[drawOrder[i]].x;
+            vertices[i * 3 + 1] = points[drawOrder[i]].y;
+            vertices[i * 3 + 2] = points[drawOrder[i]].z;
+        }
+        return vertices;
+    }
 }

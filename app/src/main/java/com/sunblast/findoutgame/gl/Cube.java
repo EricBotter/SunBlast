@@ -30,8 +30,7 @@ class Cube extends Shape {
                 center.translate(-side_half, -side_half, -side_half)
         };
 
-        shapeCoords = Point.toFloats(vertices);
-
         drawOrder = facesDrawOrder;
+        shapeCoords = Point.toFloats(vertices, drawOrder);
     }
 }
