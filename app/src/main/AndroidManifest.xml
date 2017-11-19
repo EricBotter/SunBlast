@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--Activities-->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,6 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GameActivity"></activity>
 
         <!-- Android opengl ES -->
         <uses-feature
@@ -23,9 +26,10 @@
             android:required="true" />
 
         <!-- This is for texture compression -->
-        <!-- <supports-gl-texture android:name="GL_OES_compressed_ETC1_RGB8_texture" /> -->
-        <!-- <supports-gl-texture android:name="GL_OES_compressed_paletted_texture" /> -->
-        <activity android:name=".GameActivity"></activity>
+        <supports-gl-texture android:name="GL_OES_compressed_ETC1_RGB8_texture" />
+        <supports-gl-texture android:name="GL_OES_compressed_paletted_texture" />
+
+
     </application>
 
 </manifest>
