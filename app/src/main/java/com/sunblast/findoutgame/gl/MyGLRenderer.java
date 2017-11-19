@@ -1,8 +1,12 @@
 package com.sunblast.findoutgame.gl;
 
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.SystemClock;
+
+import com.sunblast.findoutgame.sensors.SensorWrapper;
 
 import java.util.ArrayList;
 
@@ -18,6 +22,12 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
+
+    SensorWrapper sw;
+
+    public MyGLRenderer(Context context) {
+        sw = new SensorWrapper(context);
+    }
 
     public static int loadShader(int type, String shaderCode) {
         // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
@@ -53,8 +63,12 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 1, 1000);
     }
 
+    private float[] mRotationMatrix = new float[16];
+
     @Override
     public void onDrawFrame(GL10 _) {
+        float[] scratch = new float[16];
+
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
         // Set the camera position (View matrix)
@@ -63,8 +77,24 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
+        // Create a rotation transformation for the triangle
+        float[] m = sw.getRotationMatrix();
+        if (m != null) {
+            mRotationMatrix = new float[]{
+                    m[0], m[1], m[2], 0,
+                    m[3], m[4], m[5], 0,
+                    m[6], m[7], m[8], 0,
+                    0, 0, 0, 1
+            };
+
+            // Combine the rotation matrix with the projection and camera view
+            // Note that the mMVPMatrix factor *must be first* in order
+            // for the matrix multiplication product to be correct.
+            Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
+        }
+
         for (Shape shape: shapes) {
-            shape.draw(mMVPMatrix);
+            shape.draw(scratch);
         }
     }
 }

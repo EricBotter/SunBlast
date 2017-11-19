@@ -1,9 +1,12 @@
 package com.sunblast.findoutgame.sensors;
 
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
+import static android.content.Context.SENSOR_SERVICE;
 
 
 /**
@@ -20,6 +23,15 @@ public class SensorWrapper implements SensorEventListener {
 
     private static float EPSILON = (float) 0.001;
     private float timestamp;
+
+    private SensorManager sensorManager;
+    private Sensor gyroscope;
+
+    public SensorWrapper(Context context) {
+        sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
+        gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_GAME);
+    }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
@@ -68,9 +80,9 @@ public class SensorWrapper implements SensorEventListener {
         // rotationCurrent = rotationCurrent * deltaRotationMatrix;
 
 //        DEBUGGING PURPOSE
-        for (int i = 0; i < 9; i++) {
-            System.out.println(rotationMatrix[i]);
-        }
+//        for (int i = 0; i < 9; i++) {
+//            System.out.println(rotationMatrix[i]);
+//        }
     }
 
     public float[] getDeltaRotationVector() {
