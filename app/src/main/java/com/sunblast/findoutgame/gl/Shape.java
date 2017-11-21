@@ -79,10 +79,10 @@ abstract public class Shape {
         // get handle to vertex shader's vPosition member
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
 
-        // Enable a handle to the triangle vertices
+        // Enable a handle to the shape vertices
         GLES20.glEnableVertexAttribArray(mPositionHandle);
 
-        // Prepare the triangle coordinate data
+        // Prepare the shape coordinate data
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
                 vertexStride, vertexBuffer);
@@ -90,7 +90,7 @@ abstract public class Shape {
         // get handle to fragment shader's vColor member
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
-        // Set color for drawing the triangles
+        // Set color for drawing the shapes
         GLES20.glUniform4fv(mColorHandle, 1, new float[]{0, 0, 1, 0.1f}, 0);
 
         // get handle to shape's transformation matrix
@@ -99,7 +99,7 @@ abstract public class Shape {
         // Pass the projection and view transformation to the shader
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
 
-        // Draw the triangle
+        // Draw the shape
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
 
         // Disable vertex array

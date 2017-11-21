@@ -23,11 +23,8 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
 
-    SensorWrapper sw;
 
-    public MyGLRenderer(Context context) {
-        sw = new SensorWrapper(context);
-    }
+    public MyGLRenderer() {}
 
     public static int loadShader(int type, String shaderCode) {
         // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
@@ -63,7 +60,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 1, 1000);
     }
 
-    private float[] mRotationMatrix = new float[16];
+    private float[] mRotationMatrix;
 
     @Override
     public void onDrawFrame(GL10 _) {
@@ -77,16 +74,9 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        // Create a rotation transformation for the triangle
-        float[] m = sw.getRotationMatrix();
-        if (m != null) {
-            mRotationMatrix = new float[]{
-                    m[0], m[1], m[2], 0,
-                    m[3], m[4], m[5], 0,
-                    m[6], m[7], m[8], 0,
-                    0, 0, 0, 1
-            };
-
+        // Create a rotation transformation for the Shape
+        mRotationMatrix = SensorWrapper.getSingletonInstance().getRotationMatrix();
+        if (mRotationMatrix != null) {
             // Combine the rotation matrix with the projection and camera view
             // Note that the mMVPMatrix factor *must be first* in order
             // for the matrix multiplication product to be correct.

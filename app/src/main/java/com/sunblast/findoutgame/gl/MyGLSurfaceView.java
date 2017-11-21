@@ -13,10 +13,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
         // Create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2);
 
-        // Render the view only when there is a change in the drawing data
-//        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-
-        mRenderer = new MyGLRenderer(context);
+//        Set the renderer for this view
+        mRenderer = new MyGLRenderer();
 
         // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(mRenderer);
