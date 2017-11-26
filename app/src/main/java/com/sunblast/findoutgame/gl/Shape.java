@@ -9,14 +9,14 @@ import java.nio.ShortBuffer;
 
 abstract public class Shape {
 
-    private final String vertexShaderCode =
+    protected String vertexShaderCode =
             "uniform mat4 uMVPMatrix;" +
                     "attribute vec4 vPosition;" +
                     "void main() {" +
                     "  gl_Position = uMVPMatrix * vPosition;" +
                     "}";
 
-    private final String fragmentShaderCode =
+    protected String fragmentShaderCode =
             "precision mediump float;" +
                     "uniform vec4 vColor;" +
                     "void main() {" +
@@ -36,6 +36,8 @@ abstract public class Shape {
     private int mPositionHandle;
     private int mColorHandle;
     private int mMVPMatrixHandle;
+
+    private float[] color = new float[]{0, 0, 1, 1};
 
     public void prepareBuffers() {
         ByteBuffer bb = ByteBuffer.allocateDirect(shapeCoords.length * 4);
@@ -91,7 +93,7 @@ abstract public class Shape {
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the shapes
-        GLES20.glUniform4fv(mColorHandle, 1, new float[]{0, 0, 1, 0.1f}, 0);
+        GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
@@ -104,5 +106,13 @@ abstract public class Shape {
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(mPositionHandle);
+    }
+
+    public float[] getColor() {
+        return color;
+    }
+
+    public void setColor(float[] color) {
+        this.color = color;
     }
 }

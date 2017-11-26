@@ -30,8 +30,8 @@ public class SensorWrapper implements SensorEventListener {
 
     protected SensorWrapper() { }
 
-    public static SensorWrapper getSingletonInstance(){
-        if(singletonInstance == null){
+    public static SensorWrapper getSingletonInstance() {
+        if (singletonInstance == null) {
             singletonInstance = new SensorWrapper();
         }
         return singletonInstance;
@@ -51,8 +51,9 @@ public class SensorWrapper implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         // This timestep's delta rotation to be multiplied by the current rotation
         // after computing it from the gyro sample data.
-        if (event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR)
+        if (event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR) {
             SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values);
+        }
     }
 
     public float[] getDeltaRotationVector() {
