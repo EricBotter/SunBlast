@@ -9,20 +9,6 @@ import java.nio.ShortBuffer;
 
 abstract public class Shape {
 
-    protected String vertexShaderCode =
-            "uniform mat4 uMVPMatrix;" +
-                    "attribute vec4 vPosition;" +
-                    "void main() {" +
-                    "  gl_Position = uMVPMatrix * vPosition;" +
-                    "}";
-
-    protected String fragmentShaderCode =
-            "precision mediump float;" +
-                    "uniform vec4 vColor;" +
-                    "void main() {" +
-                    "  gl_FragColor = vColor ;" +
-                    "}";
-
     private final int COORDS_PER_VERTEX = 3;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
@@ -32,7 +18,6 @@ abstract public class Shape {
     protected float shapeCoords[] = null;
     protected short drawOrder[] = null;
 
-    private int mProgram;
     private int mPositionHandle;
     private int mColorHandle;
     private int mMVPMatrixHandle;
@@ -54,32 +39,32 @@ abstract public class Shape {
     }
 
     public void compileShaders() {
-        int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER,
-                vertexShaderCode);
-        int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER,
-                fragmentShaderCode);
+        int vertexShader = ShaderSunblast.loadShader(GLES20.GL_VERTEX_SHADER,
+                ShaderSunblast.vertexShaderCode);
+        int fragmentShader = ShaderSunblast.loadShader(GLES20.GL_FRAGMENT_SHADER,
+                ShaderSunblast.fragmentShaderCode);
 
         // create empty OpenGL ES Program
-        mProgram = GLES20.glCreateProgram();
+        ShaderSunblast.spShape = GLES20.glCreateProgram();
 
         // add the vertex shader to program
-        GLES20.glAttachShader(mProgram, vertexShader);
+        GLES20.glAttachShader(ShaderSunblast.spShape, vertexShader);
 
         // add the fragment shader to program
-        GLES20.glAttachShader(mProgram, fragmentShader);
+        GLES20.glAttachShader(ShaderSunblast.spShape, fragmentShader);
 
         // creates OpenGL ES program executables
-        GLES20.glLinkProgram(mProgram);
+        GLES20.glLinkProgram(ShaderSunblast.spShape);
     }
 
     public void draw(float[] mvpMatrix) {
         int vertexCount = shapeCoords.length / COORDS_PER_VERTEX;
 
         // Add program to OpenGL ES environment
-        GLES20.glUseProgram(mProgram);
+        GLES20.glUseProgram(ShaderSunblast.spShape);
 
         // get handle to vertex shader's vPosition member
-        mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
+        mPositionHandle = GLES20.glGetAttribLocation(ShaderSunblast.spShape, "vPosition");
 
         // Enable a handle to the shape vertices
         GLES20.glEnableVertexAttribArray(mPositionHandle);
@@ -90,13 +75,13 @@ abstract public class Shape {
                 vertexStride, vertexBuffer);
 
         // get handle to fragment shader's vColor member
-        mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
+        mColorHandle = GLES20.glGetUniformLocation(ShaderSunblast.spShape, "vColor");
 
         // Set color for drawing the shapes
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 
         // get handle to shape's transformation matrix
-        mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+        mMVPMatrixHandle = GLES20.glGetUniformLocation(ShaderSunblast.spShape, "uMVPMatrix");
 
         // Pass the projection and view transformation to the shader
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
