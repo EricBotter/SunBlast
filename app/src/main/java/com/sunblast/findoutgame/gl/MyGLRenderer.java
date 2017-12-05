@@ -22,6 +22,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     public ArrayList<Shape> shapes = new ArrayList<>();
 
 //    Text utilities
+    public ArrayList<TextObject> text = new ArrayList<>();
     TextManager tm;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
@@ -49,9 +50,9 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         swp = (int) (context.getResources().getDisplayMetrics().widthPixels);
         shp = (int) (context.getResources().getDisplayMetrics().heightPixels);
 
-        // Orientation is assumed portrait
-        ssx = swp / 320.0f;
-        ssy = shp / 480.0f;
+        // Orientation is assumed landscape
+        ssx = swp / 480.0f;
+        ssy = shp / 320.0f;
 
         // Get our uniform scaler
         if(ssx > ssy)
@@ -62,11 +63,11 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 _, EGLConfig eglConfig) {
-        GLES20.glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         setupScaling();
 
 //        SHAPES
-        Shape s = new Cube(new Point(0, 0, -3), 1);
+        Shape s = new Cube(new Point(0, 0, -10), 1);
         s.prepareBuffers();
         s.compileShaders();
 
@@ -85,13 +86,8 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         tm.setUniformscale(ssu);
 
         // Create our new textobject
-        TextObject txt = new TextObject("10", 0f, 0f, -10f);
-
-        // Add it to our manager
-        tm.addText(txt);
-
-        // Prepare the text for rendering
-        tm.PrepareDraw();
+        TextObject txt = new TextObject("5", 100f, 100f, -1f);
+        text.add(txt);
     }
 
     @Override
@@ -115,7 +111,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
         // Set the camera position (View matrix)
-        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 20f, 0f, 0f, -1f, 0f, 1.0f, 0.0f);
+        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 0f, 0f, 0f, -1f, 1.0f, 0.0f, 0.0f);
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
@@ -134,6 +130,18 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         }
 
 //        draw text
-        tm.Draw(scratch);
+        for (TextObject txt: text){
+//            if (mRotationMatrix != null) {
+//                txt.rotateText(mRotationMatrix);
+//            }
+            tm.resetText();
+            // Add text to our manager
+            tm.addText(txt);
+
+            // Prepare the text for rendering
+            tm.PrepareDraw();
+//            render text
+            tm.Draw(mMVPMatrix);
+        }
     }
 }

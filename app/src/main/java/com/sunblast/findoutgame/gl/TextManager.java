@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import android.opengl.Matrix;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -210,7 +211,7 @@ public class TextManager {
         vertexBuffer.put(vecs);
         vertexBuffer.position(0);
 
-        // The vertex buffer.
+        // The colors buffer.
         ByteBuffer bb3 = ByteBuffer.allocateDirect(colors.length * 4);
         bb3.order(ByteOrder.nativeOrder());
         colorBuffer = bb3.asFloatBuffer();
@@ -362,16 +363,16 @@ public class TextManager {
             float[] colors = new float[16];
 
             vec[0] = x;
-            vec[1] = y + (RI_TEXT_WIDTH * 0.2f);
+            vec[1] = y + (RI_TEXT_WIDTH * uniformscale);
             vec[2] = z;
             vec[3] = x;
             vec[4] = y;
             vec[5] = z;
-            vec[6] = x + (RI_TEXT_WIDTH * 0.2f);
+            vec[6] = x + (RI_TEXT_WIDTH * uniformscale);
             vec[7] = y;
             vec[8] = z;
-            vec[9] = x + (RI_TEXT_WIDTH * 0.2f);
-            vec[10] = y + (RI_TEXT_WIDTH * 0.2f);
+            vec[9] = x + (RI_TEXT_WIDTH * uniformscale);
+            vec[10] = y + (RI_TEXT_WIDTH * uniformscale);
             vec[11] = z;
 
             colors = new float[]

@@ -56,7 +56,11 @@ public class ShaderSunblast {
                     "varying vec4 v_Color;" +
                     "varying vec2 v_texCoord;" +
                     "void main() {" +
-                    "  gl_Position = uMVPMatrix * vPosition;" +
+                    "   gl_Position = " +
+                    "       vec4(vPosition.x * 2.0 / 1920.0 - 1.0,\n" +
+                    "                     vPosition.y  * -2.0 / 1080.0 + 1.0,\n" +
+                    "                     vPosition.z, \n" +
+                    "                     1.0);"+
                     "  v_texCoord = a_texCoord;" +
                     "  v_Color = a_Color;" +
                     "}";
@@ -66,7 +70,8 @@ public class ShaderSunblast {
                     "varying vec2 v_texCoord;" +
                     "uniform sampler2D s_texture;" +
                     "void main() {" +
-                    "  gl_FragColor = texture2D( s_texture, v_texCoord ) * v_Color;" +
+                    "vec2 flipped_texcoord = vec2(v_texCoord.x,  v_texCoord.y);"+
+                    "  gl_FragColor = texture2D( s_texture, flipped_texcoord ) * v_Color;" +
                     "  gl_FragColor.rgb *= v_Color.a;" +
                     "}";
 
