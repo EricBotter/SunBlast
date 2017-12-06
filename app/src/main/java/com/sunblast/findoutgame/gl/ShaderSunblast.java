@@ -9,6 +9,7 @@ public class ShaderSunblast {
     public static int spShape;
     public static int sp_Image;
     public static int spText;
+    public static int spLine;
 
     public static int loadShader(int type, String shaderCode) {
         // create a vertex shader type (GLES20.GL_VERTEX_SHADER)

@@ -1,5 +1,6 @@
 package com.sunblast.findoutgame.gl;
 
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 
+import com.sunblast.findoutgame.GameLogic;
 import com.sunblast.findoutgame.sensors.SensorWrapper;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-class MyGLRenderer implements GLSurfaceView.Renderer {
+public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 //    Array with all shapes to be rendered
     public ArrayList<Shape> shapes = new ArrayList<>();
@@ -25,10 +27,20 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     public ArrayList<TextObject> text = new ArrayList<>();
     TextManager tm;
 
+//    Lines
+    public ArrayList<UserLine> lines = new ArrayList<>();
+
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
+
+//    Game utilities
+    public GameLogic game;
+    public int time;
+    public boolean updateTime;
+    public int addTime;
+    public boolean timeAdded;
 
 //    Android context
     Context context;
@@ -73,6 +85,9 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
 
         shapes.add(s);
 
+//        LINES
+        UserLine line = new UserLine(new Point(0,0,5), new Point(5,5,10), new float[]{1.0f, 0.0f, 0.0f, 1.0f});
+        lines.add(line);
 
         //        TEXT
         // Create our text manager
@@ -85,9 +100,6 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         // Pass the uniform scale
         tm.setUniformscale(ssu);
 
-        // Create our new textobject
-        TextObject txt = new TextObject("henlo", 100f, 100f, -1f);
-        text.add(txt);
     }
 
     @Override
@@ -131,10 +143,10 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         }
 
 //        draw text
-        for (TextObject txt: text){
-//            if (mRotationMatrix != null) {
-//                txt.rotateText(mRotationMatrix);
-//            }
+        TextObject txt;
+        if(tm != null && updateTime) {
+            txt= new TextObject(""+time, 100f, 100f, -1f);
+
             tm.resetText();
             // Add text to our manager
             tm.addText(txt);
@@ -143,6 +155,24 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
             tm.PrepareDraw();
 //            render text
             tm.Draw(mMVPMatrix);
+            updateTime = false;
         }
+        else{
+            tm.Draw(mMVPMatrix);
+        }
+
+
+//        draw lines
+//        for (UserLine line : lines){
+//            line.draw((mMVPMatrix));
+//        }
+    }
+
+    public void setTime(int time){
+        updateTime = true;
+        this.time = time;
+    }
+    public void setGame(GameLogic game){
+        this.game = game;
     }
 }
