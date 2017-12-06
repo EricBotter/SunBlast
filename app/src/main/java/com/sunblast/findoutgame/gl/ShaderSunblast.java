@@ -75,6 +75,11 @@ public class ShaderSunblast {
                     "  gl_FragColor.rgb *= v_Color.a;" +
                     "}";
 
+    /* SHADER Sphere
+     *
+     * This shader is for rendering Spheres. Eventually
+     *
+     */
     public static final String sphereVertexShaderCode = "attribute vec4 position;\n" +
             "attribute vec4 inputImpostorSpaceCoordinate;\n" +
             "\n" +
@@ -144,6 +149,25 @@ public class ShaderSunblast {
             "\n" +
             "    gl_FragColor = vec4(finalSphereColor, 1.0);" +
             "}";
+
+    /* SHADER Lines
+     *
+     * Even lines need shaders in OpenGL ES. Seriously.
+     *
+     */
+    public static final String lineVertexShaderCode =
+            "uniform mat4 uMVPMatrix;" +
+                    "attribute vec4 vPosition;" +
+                    "void main() {" +
+                    "  gl_Position = uMVPMatrix * vPosition;" +
+                    "}";
+
+    public static final String lineFragmentShaderCode =
+            "precision mediump float;" +
+                    "uniform vec4 vColor;" +
+                    "void main() {" +
+                    "  gl_FragColor = vColor;" +
+                    "}";
 
 
 }

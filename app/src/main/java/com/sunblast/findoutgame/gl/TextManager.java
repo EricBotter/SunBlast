@@ -397,7 +397,7 @@ public class TextManager {
             AddCharRenderInformation(vec, colors, uv, inds);
 
             // Calculate the new position
-            x += ((l_size[indx]/2) * 0.2f);
+            x += ((l_size[indx]/2) * uniformscale);
         }
     }
 

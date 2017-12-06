@@ -86,7 +86,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         tm.setUniformscale(ssu);
 
         // Create our new textobject
-        TextObject txt = new TextObject("5", 100f, 100f, -1f);
+        TextObject txt = new TextObject("henlo", 100f, 100f, -1f);
         text.add(txt);
     }
 
@@ -98,7 +98,8 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
-        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 1, 1000);
+//        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 1, 1000);
+        Matrix.perspectiveM(mProjectionMatrix, 0, 45.0f, ratio, 1, 1000);
         setupScaling();
     }
 
