@@ -14,6 +14,6 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Rotate (-Input.gyro.rotationRate.x, -Input.gyro.rotationRate.y, 0);
+		transform.Rotate (-Input.gyro.rotationRateUnbiased.x, -Input.gyro.rotationRateUnbiased.y, -Input.gyro.rotationRateUnbiased.z);
 	}
 }
