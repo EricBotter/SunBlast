@@ -14,6 +14,7 @@ import com.sunblast.findoutgame.GameLogic;
 import com.sunblast.findoutgame.sensors.SensorWrapper;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -166,6 +167,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 //        for (UserLine line : lines){
 //            line.draw((mMVPMatrix));
 //        }
+    }
+
+    public int addShape(){
+        Random rand = new Random();
+        Shape s = new Cube(new Point(rand.nextInt(10), rand.nextInt(10), -10), 1);
+        s.prepareBuffers();
+        shapes.add(s);
+        return 1;
     }
 
     public void setTime(int time){

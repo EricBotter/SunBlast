@@ -23,5 +23,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         GameLogic game = new GameLogic(context, mRenderer);
         game.startTimer(10);
+        mRenderer.setGame(game);
     }
 }

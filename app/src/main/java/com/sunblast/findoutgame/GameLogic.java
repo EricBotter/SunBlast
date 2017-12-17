@@ -42,6 +42,8 @@ public class GameLogic {
                 }
                 else{
                     renderer.setTime(timeLeft);
+                    startTimer(10);
+                    int asd = renderer.addShape();
                 }
             }
         }.start();
