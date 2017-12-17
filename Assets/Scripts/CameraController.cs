@@ -8,12 +8,12 @@ public class CameraController : MonoBehaviour {
 	void Start ()
 	{
 		Screen.orientation = ScreenOrientation.LandscapeLeft;
-		
 		Input.gyro.enabled = true;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		transform.Rotate (-Input.gyro.rotationRateUnbiased.x, -Input.gyro.rotationRateUnbiased.y, -Input.gyro.rotationRateUnbiased.z);
+	void Update ()
+	{
+		transform.Rotate (-Input.gyro.rotationRateUnbiased.x, -Input.gyro.rotationRateUnbiased.y, Input.gyro.rotationRateUnbiased.z);
 	}
 }

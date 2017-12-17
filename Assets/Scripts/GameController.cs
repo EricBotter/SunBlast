@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
 	public int sphereCount;
 
 	public Camera mainCamera;
+	public Light cameraSpotlight;
 
 	public GUIController GuiController;
 
@@ -24,7 +25,16 @@ public class GameController : MonoBehaviour
 		Running, Paused, Ended
 	}
 
-	public State state = State.Running;
+	private State _state;
+	public State state
+	{
+		get { return _state; }
+		set
+		{
+			_state = value;
+			cameraSpotlight.intensity = _state == State.Running ? 3 : 0;
+		}
+	}
 	
 	// Use this for initialization
 	void Start () {
