@@ -34,6 +34,8 @@ public class GameController : MonoBehaviour
 		position.Scale(vector3);
 		Debug.Log(position);
 		var gameObject = Instantiate(spherePrefab, position, Quaternion.identity);
+		float scale_factor = Random.Range(0.05f,0.5f);
+		gameObject.localScale = new Vector3(scale_factor, scale_factor , scale_factor);
 		print(gameObject);
 		activeSpheres.Add(gameObject);
 		var direction = Random.onUnitSphere;
@@ -51,7 +53,7 @@ public class GameController : MonoBehaviour
 				Debug.Log("rip");
 			else
 			{
-				GuiController.IncreaseCounter(5);
+				GuiController.IncreaseCounter();
 				activeSpheres.RemoveAt(index);
 				directions.RemoveAt(index);
 				DestroyImmediate(hit.collider.gameObject);
