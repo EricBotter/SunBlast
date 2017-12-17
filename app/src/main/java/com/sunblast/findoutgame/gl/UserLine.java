@@ -43,11 +43,11 @@ public class UserLine
         drawListBuffer = dlb.asShortBuffer();
         drawListBuffer.put(pathDrawOrder);
         drawListBuffer.position(0);
-
-        ShaderSunblast.spLine = GLES20.glCreateProgram();
     }
 
-    public void compileShaders() {
+    public static void compileShaders() {
+        ShaderSunblast.spLine = GLES20.glCreateProgram();
+
         int vertexShader = ShaderSunblast.loadShader(GLES20.GL_VERTEX_SHADER,
                 ShaderSunblast.lineVertexShaderCode);
         int fragmentShader = ShaderSunblast.loadShader(GLES20.GL_FRAGMENT_SHADER,

@@ -2,13 +2,9 @@ package com.sunblast.findoutgame.gl;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLUtils;
 import android.opengl.Matrix;
-import android.os.SystemClock;
 
 import com.sunblast.findoutgame.GameLogic;
 import com.sunblast.findoutgame.sensors.SensorWrapper;
@@ -79,6 +75,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         setupScaling();
 
+        UserLine.compileShaders();
+
+//        SHAPES
+        Shape testCube = new Cube(new Point(0, 0, -10), 1);
+        testCube.prepareBuffers();
+        testCube.compileShaders();
+        shapes.add(testCube);
+
 //        SHAPES
         Shape s = new Cube(new Point(0, 0, -10), 1);
         s.prepareBuffers();
@@ -86,9 +90,20 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         shapes.add(s);
 
+        // Quad
+        Quad quad = new Quad(context, new Point(0.5f, 0.5f, -9), 1);
+        quad.prepareBuffers();
+        quad.setupImage();
+        quad.compileShaders();
+        shapes.add(quad);
+
 //        LINES
-        UserLine line = new UserLine(new Point(0,0,5), new Point(5,5,10), new float[]{1.0f, 0.0f, 0.0f, 1.0f});
+        UserLine line = new UserLine(new Point(1, 1, -3), new Point(6,1,1), new float[]{1.0f, 0.0f, 0.0f, 1.0f});
         lines.add(line);
+        UserLine line2 = new UserLine(new Point(1, 1, -3), new Point(1,6,1), new float[]{0.0f, 1.0f, 0.0f, 1.0f});
+        lines.add(line2);
+        UserLine line3 = new UserLine(new Point(1, 1, -3), new Point(1,1,3), new float[]{0.0f, 0.0f, 1.0f, 1.0f});
+        lines.add(line3);
 
         //        TEXT
         // Create our text manager
@@ -130,7 +145,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        // Create a rotation transformation for the Shape
+        // Create a rotation transformation based from data of the sensors
         mRotationMatrix = SensorWrapper.getSingletonInstance().getRotationMatrix();
         if (mRotationMatrix != null) {
             // Combine the rotation matrix with the projection and camera view
@@ -139,8 +154,20 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
         }
 
+        float[] gameVector = SensorWrapper.getSingletonInstance().gameVector;
+        Shape testCube = new Cube(new Point(gameVector[0]*3, gameVector[1]*3, gameVector[2]*3), 1);
+        testCube.prepareBuffers();
+        testCube.compileShaders();
+        shapes.remove(0);
+        shapes.add(0, testCube);
+
         for (Shape shape: shapes) {
             shape.draw(scratch);
+        }
+
+//        draw lines
+        for (UserLine line : lines){
+            line.draw(scratch);
         }
 
 //        draw text
@@ -162,11 +189,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             tm.Draw(mMVPMatrix);
         }
 
-
-//        draw lines
-//        for (UserLine line : lines){
-//            line.draw((mMVPMatrix));
-//        }
     }
 
     public int addShape(){

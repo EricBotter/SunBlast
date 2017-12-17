@@ -9,11 +9,11 @@ import java.nio.ShortBuffer;
 
 abstract public class Shape {
 
-    private final int COORDS_PER_VERTEX = 3;
-    private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
+    protected static final int COORDS_PER_VERTEX = 3;
+    protected final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
-    private FloatBuffer vertexBuffer;
-    private ShortBuffer drawListBuffer;
+    protected FloatBuffer vertexBuffer;
+    protected ShortBuffer drawListBuffer;
 
     protected float shapeCoords[] = null;
     protected short drawOrder[] = null;

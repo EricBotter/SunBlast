@@ -28,6 +28,8 @@ public class SensorWrapper implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor gyroscope;
 
+    public float[] gameVector;
+
     protected SensorWrapper() { }
 
     public static SensorWrapper getSingletonInstance() {
@@ -52,6 +54,7 @@ public class SensorWrapper implements SensorEventListener {
         // This timestep's delta rotation to be multiplied by the current rotation
         // after computing it from the gyro sample data.
         if (event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR) {
+            gameVector = event.values;
             SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values);
         }
     }
