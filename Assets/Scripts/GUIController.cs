@@ -38,7 +38,7 @@ public class GUIController : MonoBehaviour
         counter -= Time.deltaTime;
         if (counter <= 0)
             GameOver();
-        counterText.text = counter.ToString("0.0");
+        counterText.text = counter.ToString("Time: 0.0");
     }
 
     void GameOver()

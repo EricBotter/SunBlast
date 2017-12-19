@@ -311,7 +311,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.972, g: 0.9512759, b: 0.812, a: 1}
-  m_Intensity: 0.3
+  m_Intensity: 0.4
   m_Range: 100
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -712,27 +712,9 @@ MonoBehaviour:
   spherePrefab: {fileID: 4387303667790178, guid: ca80c75e14fdb45b4b504258ae404d1d,
     type: 2}
   sphereCount: 10
-  textures:
-  - {fileID: 2800000, guid: 7c5d3313fd30942d4aee119a68bee908, type: 3}
-  - {fileID: 2800000, guid: d0b57352082b748c3ab55a23178199a0, type: 3}
-  - {fileID: 2800000, guid: 881b8a8942c0b47b3af842dc5876b436, type: 3}
-  - {fileID: 2800000, guid: dbda5c5f47d6747de96a03879da2adb3, type: 3}
-  - {fileID: 2800000, guid: fd42bb9ecb1fe4f91977b54fa318ed40, type: 3}
-  - {fileID: 2800000, guid: 412d57d577b0447cc8d201966713b479, type: 3}
-  - {fileID: 2800000, guid: 018fc15361b2d42af9085f43a7e61bef, type: 3}
-  - {fileID: 2800000, guid: dc9af257ba8684a9d8eb26ebafb5cdc9, type: 3}
   mainCamera: {fileID: 1536465159}
   cameraSpotlight: {fileID: 1958083018}
   GuiController: {fileID: 1536465163}
-  planetTextures:
-  - {fileID: 2800000, guid: 7c5d3313fd30942d4aee119a68bee908, type: 3}
-  - {fileID: 2800000, guid: d0b57352082b748c3ab55a23178199a0, type: 3}
-  - {fileID: 2800000, guid: 881b8a8942c0b47b3af842dc5876b436, type: 3}
-  - {fileID: 2800000, guid: dbda5c5f47d6747de96a03879da2adb3, type: 3}
-  - {fileID: 2800000, guid: fd42bb9ecb1fe4f91977b54fa318ed40, type: 3}
-  - {fileID: 2800000, guid: 412d57d577b0447cc8d201966713b479, type: 3}
-  - {fileID: 2800000, guid: 018fc15361b2d42af9085f43a7e61bef, type: 3}
-  - {fileID: 2800000, guid: dc9af257ba8684a9d8eb26ebafb5cdc9, type: 3}
   gameScore: 0
 --- !u!114 &1536465163
 MonoBehaviour:

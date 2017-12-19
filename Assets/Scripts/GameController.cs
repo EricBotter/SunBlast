@@ -8,14 +8,10 @@ public class GameController : MonoBehaviour
 	public Transform spherePrefab;
 	public int sphereCount;
 
-	public Object[] textures;
-
 	public Camera mainCamera;
 	public Light cameraSpotlight;
 
 	public GUIController GuiController;
-
-	public Texture2D[] planetTextures;
 
 	public int gameScore = 0;
 
@@ -23,6 +19,8 @@ public class GameController : MonoBehaviour
 	private List<Vector3> directions = new List<Vector3>();
 
 	private static readonly Vector3 vector3 = new Vector3(3, 3, 3);
+
+	private Texture2D[] planetTextures, texturesBumpMaps;
 	
 	public enum State
 	{
@@ -41,14 +39,13 @@ public class GameController : MonoBehaviour
 	}
 	
 	// Use this for initialization
+
 	void Start () {
+		planetTextures = Resources.LoadAll<Texture2D>("Planets");
+		texturesBumpMaps = Resources.LoadAll<Texture2D>("PlanetsGrey");
+
 		for (var i = 0; i < sphereCount; i++)
-		{
-			Debug.Log("Adding "+i);
 			AddSphere();
-		}
-		textures = Resources.LoadAll("Planets", typeof(Texture2D));
-		print (textures);
 	}
 
 	private void AddSphere()
@@ -56,8 +53,14 @@ public class GameController : MonoBehaviour
 		var position = Random.onUnitSphere;
 		position.Scale(vector3);
 		var sphereTransform = Instantiate(spherePrefab, position, Quaternion.identity);
-		sphereTransform.GetComponent<Renderer>().material.mainTexture = planetTextures[Random.Range (0, planetTextures.Length)];
+		var index = Random.Range(0, planetTextures.Length);
+		var material = sphereTransform.GetComponent<Renderer>().material;
+		material.mainTexture = planetTextures[index];
+		material.shaderKeywords = new[]{"_NORMALMAP"};
+		material.SetTexture("_BumpMap", texturesBumpMaps[index]);
+		material.SetFloat("_BumpScale", 1.2f);
 		sphereTransform.GetComponent<SphereController>().scale = Random.Range(0.15f, 0.5f);
+		sphereTransform.GetComponent<SphereController>().speed = Random.Range(5f, 25f);
 		activeSpheres.Add(sphereTransform);
 		var direction = Random.onUnitSphere;
 		directions.Add(direction);
@@ -90,7 +93,7 @@ public class GameController : MonoBehaviour
 		{
 			var sphere = activeSpheres[i];
 			var direction = directions[i];
-			sphere.RotateAround(Vector3.zero, direction, 5 * Time.deltaTime);
+			sphere.RotateAround(Vector3.zero, direction, sphere.GetComponent<SphereController>().speed * Time.deltaTime);
 		}
 	}
 }

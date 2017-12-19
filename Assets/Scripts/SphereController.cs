@@ -34,6 +34,8 @@ public class SphereController : MonoBehaviour
         get { return _score; }
     }
 
+    public float speed = 5;
+
     // Use this for initialization
     void Start()
     {
@@ -46,8 +48,9 @@ public class SphereController : MonoBehaviour
 
     public void Explode()
     {
-        var mesh = GetComponent<MeshRenderer>();
-        mesh.enabled = false;
+        GetComponent<MeshRenderer>().enabled
+            = GetComponent<SphereCollider>().enabled
+            = false;
         var exp = GetComponent<ParticleSystem>();
         exp.Play();
         Destroy(gameObject, exp.duration);
