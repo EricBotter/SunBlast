@@ -17,6 +17,8 @@ public class GameController : MonoBehaviour
 
 	public Texture2D[] planetTextures;
 
+	public int gameScore = 0;
+
 	private List<Transform> activeSpheres = new List<Transform>();
 	private List<Vector3> directions = new List<Vector3>();
 
@@ -54,10 +56,8 @@ public class GameController : MonoBehaviour
 		var position = Random.onUnitSphere;
 		position.Scale(vector3);
 		var sphereTransform = Instantiate(spherePrefab, position, Quaternion.identity);
-		var scaleFactor = Random.Range(0.05f,0.5f);
 		sphereTransform.GetComponent<Renderer>().material.mainTexture = planetTextures[Random.Range (0, planetTextures.Length)];
-		sphereTransform.localScale = new Vector3(scaleFactor, scaleFactor , scaleFactor);
-		print(sphereTransform);
+		sphereTransform.GetComponent<SphereController>().scale = Random.Range(0.15f, 0.5f);
 		activeSpheres.Add(sphereTransform);
 		var direction = Random.onUnitSphere;
 		directions.Add(direction);
@@ -79,7 +79,9 @@ public class GameController : MonoBehaviour
 				GuiController.IncreaseCounter();
 				activeSpheres.RemoveAt(index);
 				directions.RemoveAt(index);
-				DestroyImmediate(hit.collider.gameObject);
+				var sphere = hit.collider.gameObject;
+				gameScore += sphere.GetComponent<SphereController>().score;
+				sphere.GetComponent<SphereController>().Explode();
 				AddSphere();
 			}
 		}

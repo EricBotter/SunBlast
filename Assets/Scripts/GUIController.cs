@@ -7,6 +7,7 @@ public class GUIController : MonoBehaviour
 {
     public Text counterText;
     public Text gameOverText;
+    public Text scoreText;
 
     public Image crosshair;
 
@@ -28,6 +29,7 @@ public class GUIController : MonoBehaviour
     void Update()
     {
         UpdateCounter();
+        scoreText.text = "Score: " + gameController.gameScore;
     }
 
     void UpdateCounter()
