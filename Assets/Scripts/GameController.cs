@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour
 	public Transform spherePrefab;
 	public int sphereCount;
 
+	public Object[] textures;
+
 	public Camera mainCamera;
 
 	public GUIController GuiController;
@@ -33,16 +35,26 @@ public class GameController : MonoBehaviour
 			Debug.Log("Adding "+i);
 			AddSphere();
 		}
+		textures = Resources.LoadAll("Planets", typeof(Texture2D));
+		print (textures);
 	}
 
 	private void AddSphere()
 	{
 		var position = Random.onUnitSphere;
 		position.Scale(vector3);
+<<<<<<< Updated upstream
 		var sphereTransform = Instantiate(spherePrefab, position, Quaternion.identity);
 		var scaleFactor = Random.Range(0.05f,0.5f);
 		sphereTransform.GetComponent<Renderer>().material.mainTexture = textures[Random.Range (0, textures.Length)];
 		sphereTransform.localScale = new Vector3(scaleFactor, scaleFactor , scaleFactor);
+=======
+		Debug.Log(position);
+		var sphereTransform = Instantiate(spherePrefab, position, Quaternion.identity);
+		float scale_factor = Random.Range(0.05f,0.5f);
+		sphereTransform.GetComponent<Renderer> ().material.mainTexture = (Texture2D) textures[Random.Range (0, textures.Length)];
+		sphereTransform.localScale = new Vector3(scale_factor, scale_factor , scale_factor);
+>>>>>>> Stashed changes
 		print(sphereTransform);
 		activeSpheres.Add(sphereTransform);
 		var direction = Random.onUnitSphere;
