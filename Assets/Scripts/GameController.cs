@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
 	public Texture2D[] planetTextures;
 
 	private List<Transform> activeSpheres = new List<Transform>();
-	private List<Vector3> directions = new List<Vector3>();	
+	private List<Vector3> directions = new List<Vector3>();
 
 	private static readonly Vector3 vector3 = new Vector3(3, 3, 3);
 	
@@ -53,18 +53,10 @@ public class GameController : MonoBehaviour
 	{
 		var position = Random.onUnitSphere;
 		position.Scale(vector3);
-<<<<<<< Updated upstream
 		var sphereTransform = Instantiate(spherePrefab, position, Quaternion.identity);
 		var scaleFactor = Random.Range(0.05f,0.5f);
 		sphereTransform.GetComponent<Renderer>().material.mainTexture = planetTextures[Random.Range (0, planetTextures.Length)];
 		sphereTransform.localScale = new Vector3(scaleFactor, scaleFactor , scaleFactor);
-=======
-		Debug.Log(position);
-		var sphereTransform = Instantiate(spherePrefab, position, Quaternion.identity);
-		float scale_factor = Random.Range(0.05f,0.5f);
-		sphereTransform.GetComponent<Renderer> ().material.mainTexture = (Texture2D) textures[Random.Range (0, textures.Length)];
-		sphereTransform.localScale = new Vector3(scale_factor, scale_factor , scale_factor);
->>>>>>> Stashed changes
 		print(sphereTransform);
 		activeSpheres.Add(sphereTransform);
 		var direction = Random.onUnitSphere;
