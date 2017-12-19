@@ -5,7 +5,13 @@ using UnityEngine.UI;
 
 public class GUIController : MonoBehaviour
 {
-    public Text counter_text;
+    public Text counterText;
+    public Text gameOverText;
+
+    public Image crosshair;
+
+    public Sprite greenReticle;
+    public Sprite redReticle;
 
     public GameController gameController;
     
@@ -29,18 +35,15 @@ public class GUIController : MonoBehaviour
         if (gameController.state != GameController.State.Running) return;
         counter -= Time.deltaTime;
         if (counter <= 0)
-        {
-            counter_text.text = "Game Over!";
-            gameController.state = GameController.State.Ended;
             GameOver();
-        }
-        else
-            counter_text.text = counter.ToString("0.0");
+        counterText.text = counter.ToString("0.0");
     }
 
     void GameOver()
     {
-        
+        gameOverText.text = "Game Over!";
+        gameController.state = GameController.State.Ended;
+        crosshair.sprite = redReticle;
     }
 
     public void IncreaseCounter()
@@ -55,13 +58,19 @@ public class GUIController : MonoBehaviour
         {
             case GameController.State.Running:
                 gameController.state = GameController.State.Paused;
+                gameOverText.text = "Paused";
+                crosshair.sprite = redReticle;
                 break;
             case GameController.State.Paused:
                 gameController.state = GameController.State.Running;
+                crosshair.sprite = greenReticle;
+                gameOverText.text = "";
                 break;
             case GameController.State.Ended:
                 SceneManager.LoadScene("MainMenu");
                 break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

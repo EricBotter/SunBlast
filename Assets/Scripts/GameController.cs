@@ -11,10 +11,11 @@ public class GameController : MonoBehaviour
 	public Object[] textures;
 
 	public Camera mainCamera;
+	public Light cameraSpotlight;
 
 	public GUIController GuiController;
 
-	public Texture2D[] textures;
+	public Texture2D[] planetTextures;
 
 	private List<Transform> activeSpheres = new List<Transform>();
 	private List<Vector3> directions = new List<Vector3>();	
@@ -26,7 +27,16 @@ public class GameController : MonoBehaviour
 		Running, Paused, Ended
 	}
 
-	public State state = State.Running;
+	private State _state;
+	public State state
+	{
+		get { return _state; }
+		set
+		{
+			_state = value;
+			cameraSpotlight.intensity = _state == State.Running ? 3 : 0;
+		}
+	}
 	
 	// Use this for initialization
 	void Start () {
@@ -46,7 +56,7 @@ public class GameController : MonoBehaviour
 <<<<<<< Updated upstream
 		var sphereTransform = Instantiate(spherePrefab, position, Quaternion.identity);
 		var scaleFactor = Random.Range(0.05f,0.5f);
-		sphereTransform.GetComponent<Renderer>().material.mainTexture = textures[Random.Range (0, textures.Length)];
+		sphereTransform.GetComponent<Renderer>().material.mainTexture = planetTextures[Random.Range (0, planetTextures.Length)];
 		sphereTransform.localScale = new Vector3(scaleFactor, scaleFactor , scaleFactor);
 =======
 		Debug.Log(position);
